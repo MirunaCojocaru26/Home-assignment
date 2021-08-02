@@ -7,13 +7,13 @@ const useStyles = makeStyles(style);
 const Post = ({component}) => {
     const classes = useStyles();
 
-  return <Card className={classes.root}>
+    return <Card className={classes.root}>
         <Typography className={classes.title}>
-        {component.id + '. ' + component.title}
+            {component.id + '. ' + component.title}
         </Typography>
 
         <Typography variant="body2">
-        {component.body}
+            {component.body}
         </Typography>
     </Card>
 }
