@@ -3,6 +3,7 @@ import { useEffect, useState} from "react";
 import Post from "../Post/Post";
 import Pagination from '@material-ui/lab/Pagination';
 import style from '../style'
+import {itemOnPage} from '../../constants'
 
 const useStyles = makeStyles(style);
 const sort = ['Sort A-Z', 'Sort Z-A', 'Restore']
@@ -31,12 +32,12 @@ export default function Home() {
       setData(data.sort((a, b) => (a.id > b.id) ? 1 : -1));
       setButtonPress(0)
     }
-    setDataPage(data.filter((_, nr)=> nr >= (page-1)*20 && nr < page*20 ))
+    setDataPage(data.filter((_, nr)=> nr >= (page-1)*itemOnPage && nr < page*itemOnPage ))
   }
 
   const handleChangePage = (_, value) => {
     setPage(value)
-    setDataPage(data.filter((_, nr)=> nr >= (value-1)*20 && nr < value*20 ))
+    setDataPage(data.filter((_, nr)=> nr >= (value-1)*itemOnPage && nr < value*itemOnPage ))
   }
 
   useEffect(() => {
@@ -44,7 +45,7 @@ export default function Home() {
     .then(response => response.json())
     .then((jsonData) => {
       setData(jsonData)
-      setDataPage(jsonData.filter((_, nr)=> nr < 20 ))
+      setDataPage(jsonData.filter((_, nr)=> nr < itemOnPage ))
     })
     .catch((error) => {
       console.error(error)
@@ -57,7 +58,7 @@ export default function Home() {
         <Button onClick={handleSortingClick} variant="contained" className={classes.button}>{sort[buttonPress]}</Button>
       </Grid>
       <Grid item container  justifyContent='flex-end' alignContent='center' xs={12} md={6} lg={6}>
-        <Pagination count={data?.length/20} size="large" page={page} onChange={handleChangePage} />
+        <Pagination count={data?.length/itemOnPage} size="large" page={page} onChange={handleChangePage} />
       </Grid>
     
       {dataPage?.map((post, nr) => 
